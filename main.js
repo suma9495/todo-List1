@@ -12,8 +12,7 @@ function onAddClick(event){
 /*delete function*/
 function onDeleteIconClick(){
   var index = this.parentElement.childNodes[0].id;
-  console.log(index);
-	itemList.splice(index,1);
+  itemList.splice(index,1);
 	printList();
 }
 
@@ -24,11 +23,13 @@ function onEditIconClick(){
 	
 	/*to add text field*/
 	const editText = document.createElement("input");
-  	editText.setAttribute('id', 'editedValue');
-  editText.setAttribute('value',itemList[index]);   
-	editText.className = "edit-text-icon";
-	this.parentElement.appendChild(editText);
+   editText.setAttribute('id', 'editedValue');
+  editText.setAttribute('index',[index]); 
+  editText.setAttribute('value',itemList[index]); 
 
+	editText.className = "edit-text-icon";
+  this.parentElement.appendChild(editText);
+  console.log(editText);
 	/*to add save button*/
 	const saveButton = document.createElement("input");
   	saveButton.className = "edit-button";
@@ -39,37 +40,35 @@ function onEditIconClick(){
 
 
 	/*to remove edit icon*/
-	this.parentElement.removeChild(this.parentElement.childNodes[2]);
+  this.parentElement.removeChild(this.parentElement.childNodes[2]);
+  // console.log(editText);
 }
 
 /*save function*/
 function onSaveButttonClick(event){
-  
-	var index = this.parentElement.childNodes[0].id;
-  itemList[index] = editedValue.value;
-  console.log(editedValue);
+  debugger;
+  var index = this.parentElement.childNodes[0].id;
+  itemList[index] = editedValue[index].value;
+  console.log(editedValue[index].value);
 	printList();
 	
 }
 
+/*printlist function*/
+
 function printList(){
- var index = 0;
+var index = 0;
   while (ulList.firstChild) {
     ulList.removeChild(ulList.firstChild);
 }
-//console.log(ulList.firstChild);
 itemList.forEach(function(item, index){
-
 const li = document.createElement("li"); 
-
   /* add toDoItem to list*/
   const toDoItem = document.createElement("SPAN");
   toDoItem.classList.add("list-item");
   toDoItem.setAttribute('id',index); 
   toDoItem.innerText=item;
   li.appendChild(toDoItem);
-  console.log(toDoItem);
-
   /* add Delete to list*/
   const deleteIcon = document.createElement("SPAN");
   const icons = document.createTextNode("\u00D7");
@@ -78,7 +77,6 @@ const li = document.createElement("li");
   deleteIcon.appendChild(icons);
   deleteIcon.addEventListener('click', onDeleteIconClick);/*ADD DELETE EVENTLISTENER*/
   li.appendChild(deleteIcon);
-
   /* add edit to list*/  
   const editIcon = document.createElement("SPAN");
   const edit = document.createTextNode("\u270E");
@@ -87,8 +85,6 @@ const li = document.createElement("li");
   editIcon.appendChild(edit);
   editIcon.addEventListener('click', onEditIconClick);/*ADD EDIT EVENTLISTENER*/
   li.appendChild(editIcon);
-
-    /*append list to ul, set item value to null after onClick, set item focus after onClick */
   ul.appendChild(li);
   index = index+1;
 });
@@ -100,8 +96,6 @@ const ul = document.querySelector('#myUL');
 const btnAdd = document.querySelector("button.btn-add");
 btnAdd.addEventListener('click', onAddClick);
 var itemList = [];
-console.log(itemList);
-
 
 
 
